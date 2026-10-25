@@ -1,11 +1,30 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Screening from "./pages/Screening";
+import Results from "./pages/Results";
+import History from "./pages/History";
+import About from "./pages/About";
+
 function App() {
   return (
-    <div className="min-h-screen bg-blue-50 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-blue-700">
-        DR Screening - Tailwind works!
-      </h1>
-    </div>
-  )
+    <BrowserRouter>
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/screening" element={<Screening />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
