@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
+import { useLanguage } from "../i18n/LanguageContext";
 
 const MAX_SIZE_MB = 5;
 const ALLOWED_TYPES = ["image/jpeg", "image/png"];
 
 function Screening() {
+  const { t } = useLanguage();
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState("");
@@ -18,11 +20,11 @@ function Screening() {
     if (!selected) return;
 
     if (!ALLOWED_TYPES.includes(selected.type)) {
-      setError("Only JPG and PNG images are allowed.");
+      setError(t("screen.errType"));
       return;
     }
     if (selected.size > MAX_SIZE_MB * 1024 * 1024) {
-      setError(`File is too large. Maximum size is ${MAX_SIZE_MB} MB.`);
+      setError(t("screen.errSize"));
       return;
     }
 
@@ -53,12 +55,12 @@ function Screening() {
       });
       const data = await response.json();
       if (!response.ok) {
-        setError(data.error || "Something went wrong.");
+        setError(data.error || t("screen.errGeneric"));
       } else {
         setResult(data);
       }
     } catch {
-      setError("Could not reach the server. Make sure the backend is running.");
+      setError(t("screen.errServer"));
     } finally {
       setLoading(false);
     }
@@ -75,17 +77,14 @@ function Screening() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="text-2xl font-bold text-blue-800 mb-2">
-        Screening / Image Upload
-      </h1>
+      <h1 className="text-2xl font-bold text-teal-800 mb-2">{t("screen.title")}</h1>
 
       <ul className="list-disc ml-6 text-gray-700 mb-6 space-y-1">
-        <li>Use a clear, well-lit retinal (fundus) photograph.</li>
-        <li>Accepted formats: JPG or PNG, up to {MAX_SIZE_MB} MB.</li>
-        <li>Avoid blurry, dark, or cropped images.</li>
+        <li>{t("screen.tip1")}</li>
+        <li>{t("screen.tip2")}</li>
+        <li>{t("screen.tip3")}</li>
       </ul>
 
-      {/* Drag and drop area */}
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -95,12 +94,10 @@ function Screening() {
         onDrop={handleDrop}
         onClick={() => inputRef.current.click()}
         className={`border-2 border-dashed rounded-lg p-10 text-center cursor-pointer transition ${
-          dragging ? "border-blue-600 bg-blue-50" : "border-gray-400"
+          dragging ? "border-teal-600 bg-teal-50" : "border-gray-400"
         }`}
       >
-        <p className="text-gray-700">
-          Drag and drop a retinal image here, or click to choose a file
-        </p>
+        <p className="text-gray-700">{t("screen.drop")}</p>
         <input
           ref={inputRef}
           type="file"
@@ -110,15 +107,11 @@ function Screening() {
         />
       </div>
 
-      {/* Error message */}
-      {error && (
-        <div className="mt-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
-      )}
+      {error && <div className="mt-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>}
 
-      {/* Preview */}
       {preview && (
         <div className="mt-6">
-          <h2 className="font-semibold mb-2">Preview</h2>
+          <h2 className="font-semibold mb-2">{t("screen.preview")}</h2>
           <img
             src={preview}
             alt="Retinal preview"
@@ -132,35 +125,33 @@ function Screening() {
             <button
               onClick={handleAnalyze}
               disabled={loading}
-              className="bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-800 disabled:opacity-50"
+              className="bg-teal-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-800 disabled:opacity-50"
             >
-              {loading ? "Analyzing..." : "Analyze Image"}
+              {loading ? t("screen.analyzing") : t("screen.analyze")}
             </button>
             <button
               onClick={handleReset}
               disabled={loading}
               className="border px-6 py-2 rounded-lg hover:bg-gray-100 disabled:opacity-50"
             >
-              Remove
+              {t("screen.remove")}
             </button>
           </div>
         </div>
       )}
 
-      {/* Loading indicator */}
       {loading && (
-        <div className="mt-6 flex items-center justify-center gap-3 text-blue-700">
-          <div className="h-6 w-6 border-4 border-blue-700 border-t-transparent rounded-full animate-spin"></div>
-          <span>Processing image...</span>
+        <div className="mt-6 flex items-center justify-center gap-3 text-teal-700">
+          <div className="h-6 w-6 border-4 border-teal-700 border-t-transparent rounded-full animate-spin"></div>
+          <span>{t("screen.processing")}</span>
         </div>
       )}
 
-      {/* Server response (temporary, will become the Results page) */}
       {result && (
         <div className="mt-6 p-4 bg-green-100 text-green-800 rounded">
-          <p>{result.message}</p>
+          <p>{t("screen.received")}</p>
           <p className="text-sm mt-1">
-            Image size: {result.width} x {result.height} pixels
+            {t("screen.imageSize")}: {result.width} x {result.height} {t("screen.pixels")}
           </p>
         </div>
       )}
