@@ -38,7 +38,7 @@ function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-teal-50 via-white to-sky-50 border-b border-slate-200">
+      <section className="relative overflow-hidden `bg-gradient-to-br` from-teal-50 via-white to-sky-50 border-b border-slate-200">
         <div className="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-teal-200/40 blur-3xl"></div>
         <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-sky-200/40 blur-3xl"></div>
 
