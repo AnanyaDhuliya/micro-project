@@ -16,7 +16,7 @@ def health():
     return jsonify({"status": "ok", "message": "Backend is running"})
 
 
-@app.route("/api/analyze", methods=["POST"])
+@app.route("/api/analyze", met ods=["POST"])
 def analyze():
     # 1. Was a file sent?
     if "image" not in request.files:

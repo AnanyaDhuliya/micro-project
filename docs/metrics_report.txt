@@ -1,0 +1,28 @@
+Test set results (550 images, never used for training or for choosing the best epoch)
+Accuracy: 0.802
+Macro-F1: 0.658
+
+               precision    recall  f1-score   support
+
+        No DR      0.970     0.970     0.970       271
+         Mild      0.508     0.554     0.530        56
+     Moderate      0.781     0.713     0.746       150
+       Severe      0.536     0.517     0.526        29
+Proliferative      0.472     0.568     0.515        44
+
+     accuracy                          0.802       550
+    macro avg      0.653     0.665     0.658       550
+ weighted avg      0.809     0.802     0.804       550
+
+Confusion matrix (rows = actual, columns = predicted; order: No DR, Mild, Moderate, Severe, Proliferative)
+[[263   7   1   0   0]
+ [  4  31  16   1   4]
+ [  2  20 107   7  14]
+ [  1   1   2  15  10]
+ [  1   2  11   5  25]]
+
+Referable DR (level 2 or higher) versus not:
+  Caught: 196, Missed: 27, False alarms: 22, Correctly cleared: 305
+  Sensitivity: 0.879, Specificity: 0.933
+
+Note: screening-support prototype, not clinically validated. One dataset (APTOS 2019), one split.
